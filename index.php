@@ -40,8 +40,37 @@ class Card {
   public function getNumericValue () {
     if ($this->number < 11) {
       return $this->number;
+    } else if ($this->number == 'A') {
+      return 'A';
     } else {
       return 10;
     }
   }
 }
+
+class Deck {
+  public function __construct ($cards = []) {
+    $numbers = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+    $suits = ['♥', '♦', '♠', '♣'];
+
+    $this->whole_deck = $cards;
+
+    foreach ($suits as $suit) {
+      foreach ($numbers as $number) {
+        $card = new Card($number,$suit);
+        array_push($this->whole_deck, $card);
+      }
+    }
+  }
+
+  public function getDeck () {
+    return $this->whole_deck;
+  }
+
+  public function shuffle () {
+    shuffle($this->whole_deck);
+  }
+}
+
+$deck = new Deck;
+$deck->shuffle();
