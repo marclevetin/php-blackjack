@@ -22,3 +22,26 @@
 // Multiple decks in the shoe
 // Betting
 // GUI
+
+class Card {
+  public function __construct ($number, $suit) {
+    $this->number = $number;
+    $this->suit = $suit;
+  }
+
+  public function getNumber () {
+    return $this->number;
+  }
+
+  public function getSuit () {
+    return $this->suit;
+  }
+
+  public function getNumericValue () {
+    if ($this->number < 11) {
+      return $this->number;
+    } else {
+      return 10;
+    }
+  }
+}
