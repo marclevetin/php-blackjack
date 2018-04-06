@@ -72,5 +72,36 @@ class Deck {
   }
 }
 
+class Player {
+  public function __construct ($name, $isDealer=false) {
+    $this->name = $name;
+    $this->cards = [];
+    $this->isDealer = $isDealer;
+  }
+
+  public function getCards() {
+    return $this->cards;
+  }
+
+  public function addCard($card) {
+    array_push($this->cards, $card);
+  }
+
+  public function getDealer() {
+    return $this->isDealer;
+  }
+}
+
 $deck = new Deck;
 $deck->shuffle();
+
+// Get players and names
+$numberPlayers = readline("How many players in the game?" . "\n>");
+$allPlayers = [];
+for ($i=0; $i < $numberPlayers; $i++) {
+  $adjustedIndex = $i + 1;
+  $playerName = readline("What is Player $adjustedIndex's name?" . "\n>");
+  $newplayer = new Player($playerName);
+  array_push($allPlayers, $newplayer);
+}
+print_r($allPlayers);
