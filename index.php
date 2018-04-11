@@ -152,7 +152,7 @@ class Game {
       $currentSum = $player->getCardsSum() - $aceOver21;
 
       if ($currentSum === 21 && $countOfCards === 2) {
-        echo "Blackjack!  $player->name wins!";
+        echo "Blackjack!  $player->name wins!\n";
         $done = true;
       } elseif ($currentSum === 21 && $countOfCards !== 2) {
         echo "$player->name stands at $currentSum.\n";
