@@ -42,8 +42,6 @@ class Card {
   }
 
   public function getNumericValue () {
-    var_dump($this);
-
     $facecards = ['K', 'Q', 'J'];
 
     if ($this->number === 'A') {
@@ -200,22 +198,34 @@ class Game {
     }
 
     echo "Dealer's final score is $currentSum.\n";
+
+    if ($currentSum > 21) {
+      echo "Dealer busts!\n";
+    }
   }
 
   public function endGame() {
-    echo "Let's see who won!\n";
-
     $dealerScore = array_pop($this->allPlayers)->getCardsSum();
+
+    echo "Let's see who won!\n";
 
     foreach ($this->allPlayers as $player) {
       $name = $player->name;
+      $playerScore = $player->getCardsSum();
 
-      if ($player->getCardsSum() <= 21 && $player->getCardsSum() >= $dealerScore) {
+      // if the dealer busted, and player score is lte to 21, then the player wins.
+      // if the dealer did not bust, and the player score is gte to the dealer's score, and the player's score is lte 21, then the player wins.
+      // if the dealer did not bust, and the player's score is less than dealer's score, player loses.
+      // if the player's score is greater than 21, he busts.
+
+      if ($dealerScore > 21 && $playerScore <= 21) {
+        echo "Dealer busts, and $name wins!\n";
+      } elseif ($dealerScore <= 21 && $playerScore >= $dealerScore && $playerScore <=21) {
         echo "$name beat the dealer and wins!\n";
-      } elseif ($player->getCardsSum() <= 21 && $player->getCardsSum() < $dealerScore) {
-        echo "$name did not beat the dealer and loses!\n";
-      } elseif ($player->getCardsSum() > 21) {
-        echo "$name busted and loses!\n";
+      } elseif ($dealerScore <= 21 && $playerScore < $dealerScore) {
+        echo "$name did not beat the dealer and loses.\n";
+      } elseif ($playerScore > 21) {
+        echo "$name busted and loses.\n";
       }
     }
   }
