@@ -147,7 +147,16 @@ class Game {
         echo "$player->name wins!";
         $done = true;
       } elseif ($currentSum < 21) {
-        $getAnotherCard = readline("Your total is $currentSum. Do you want another card? (Y/N)" . "\n>"); //will need to sanitize this
+        $validInput = false;
+        while (!$validInput) {
+          $getAnotherCard = readline("Your total is $currentSum. Do you want another card? (Y/N)" . "\n>");
+          $getAnotherCard = strtoupper($getAnotherCard);
+          if ($getAnotherCard === 'Y' || $getAnotherCard === 'N') {
+            $validInput = true;
+          } else {
+            echo "Please enter a 'Y' or 'N'.\n";
+          }
+        }
         if ($getAnotherCard == "Y") {
           $player->addCard($this->deck->deal());
         } elseif ($getAnotherCard === "N") {
