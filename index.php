@@ -43,10 +43,11 @@ class Card {
 
   public function getNumericValue () {
     var_dump($this);
+
     $facecards = ['K', 'Q', 'J'];
 
     if ($this->number === 'A') {
-      return 1;
+      return 11;
     } elseif (in_array($this->number, $facecards)) {
       return 10;
     } else {
@@ -144,11 +145,19 @@ class Game {
   public function playerTurn($player) {
     echo "Hi $player->name\n";
     $done = false;
+    $countOfCards = 2;
+    $aceOver21 = 0;
+
+    $hasAce = $this->doesHandIncludeAce(  $player->getCards() ); // expand this out.
+
     while (!$done) {
-      $currentSum = $player->getCardsSum();
-      if ($currentSum === 21) { // intended to capture a Blackjack.  Needs to be expanded out.
-        echo "$player->name wins!";
+      $currentSum = $player->getCardsSum() - $aceOver21;
+
+      if ($currentSum === 21 && $countOfCards === 2) {
+        echo "Blackjack!  $player->name wins!";
         $done = true;
+      } elseif ($currentSum === 21 && $countOfCards !== 2) {
+        echo "$player->name stands at $currentSum.\n";
       } elseif ($currentSum < 21) {
         $validInput = false;
         while (!$validInput) {
@@ -161,14 +170,21 @@ class Game {
           }
         }
         if ($getAnotherCard == "Y") {
+          $countOfCards += 1;
           $player->addCard($this->deck->deal());
         } elseif ($getAnotherCard === "N") {
           echo "$player->name stands at $currentSum.\n";
           $done = true;
         }
       } elseif ($currentSum > 21) {
-        echo "your total is $currentSum.  This is over 21, and you bust.  Sorry!\n";
-        $done = true;
+        $hasAce = false;
+        if ($hasAce) {
+          $aceOver21 = 10;
+          echo "Good thing you have an Ace!.\n";
+        } else {
+          echo "Your total is $currentSum.  This is over 21, and you bust.  Sorry!\n";
+          $done = true;
+        }
       }
     }
   }
@@ -201,6 +217,13 @@ class Game {
         echo "$name busted and loses!\n";
       }
     }
+  }
+
+  private function doesHandIncludeAce($hand) {
+    if ( in_array('A', array_values($hand)) ) {
+      return true;
+    }
+    return false;
   }
 
 }
