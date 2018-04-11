@@ -158,6 +158,7 @@ class Game {
         $done = true;
       } elseif ($currentSum === 21 && $countOfCards !== 2) {
         echo "$player->name stands at $currentSum.\n";
+        $done = true;
       } elseif ($currentSum < 21) {
         $validInput = false;
         while (!$validInput) {
