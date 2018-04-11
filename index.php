@@ -42,12 +42,15 @@ class Card {
   }
 
   public function getNumericValue () {
-    if ($this->number < 11 && gettype($this->number) === "number") {
-      return $this->number;
-    } else if ($this->number == 'A') {
+    var_dump($this);
+    $facecards = ['K', 'Q', 'J'];
+
+    if ($this->number === 'A') {
       return 1;
-    } else {
+    } elseif (in_array($this->number, $facecards)) {
       return 10;
+    } else {
+      return intval($this->number);
     }
   }
 }
