@@ -29,14 +29,6 @@ class Card {
     $this->suit = $suit;
   }
 
-  public function getNumber () {
-    return $this->number;
-  }
-
-  public function getSuit () {
-    return $this->suit;
-  }
-
   public function getPrettyName () {
     return "$this->number" . "$this->suit";
   }
@@ -67,10 +59,6 @@ class Deck {
         array_push($this->whole_deck, $card);
       }
     }
-  }
-
-  public function getDeck () {
-    return $this->whole_deck;
   }
 
   public function shuffle () {
@@ -146,7 +134,7 @@ class Game {
     $countOfCards = 2;
     $aceOver21 = 0;
 
-    $hasAce = $this->doesHandIncludeAce(  $player->getCards() ); // expand this out.
+    $hasAce = $this->doesHandIncludeAce(  $player->cards ); // expand this out.
 
     while (!$done) {
       $currentSum = $player->getCardsSum() - $aceOver21;
@@ -265,83 +253,3 @@ foreach ($game->allPlayers as $player) {
 }
 
 $game->endGame();
-
-// Original code below
-
-// this will probably be Game stuff eventually
-// Get player names
-// $numberPlayers = readline("How many players in the game?" . "\n>");
-// $allPlayers = [];
-// for ($i=0; $i < $numberPlayers; $i++) {
-//   $adjustedIndex = $i + 1;
-//   $playerName = readline("What is Player $adjustedIndex's name?" . "\n>");
-//   $newplayer = new Player($playerName);
-//   array_push($allPlayers, $newplayer);
-// }
-
-// Add dealer to the end of array
-// $dealer = new Player('Dealer', true);
-// array_push($allPlayers, $dealer);
-
-// shuffle deck
-// $deck = new Deck;
-// $deck->shuffle();
-
-// deal two cards to each player
-// for ($i=0; $i < 2; $i++) {
-//   foreach ($allPlayers as $player) {
-//     $newCard = $deck->deal();
-//     $player->addCard($newCard);
-//   }
-// }
-
-// one player's turn
-// foreach ($allPlayers as $player) {
-//   echo "Hi $player->name";
-//   $done = false;
-//   if (!$player->isDealer) {
-//     echo "player turn";
-//     while (!$done) {
-//       if ($player->getCardsSum() === 21) { // intended to capture a Blackjack.  Needs to be expanded out.
-//         echo "$player->name wins!";
-//         $done = true;
-//       } elseif ($player->getCardsSum() < 21) {
-//         $currentSum  = $player->getCardsSum();
-//         $getAnotherCard = readline("Your total is $currentSum. Do you want another card? (Y/N)" . "\n>"); //will need to sanitize this
-//         if ($getAnotherCard == "Y") {
-//           $player->addCard($deck->deal());
-//           // print_r ( $player->getCards() );
-//           echo "show new value, loop through";
-//         } elseif ($getAnotherCard === "N") {
-//           echo "move to next player";
-//           $done = true;
-//         }
-//       } elseif ($player->getCardsSum() > 21) {
-//         $total = $player->getCardsSum();
-//         print "your total is $total.  This is over 21, and you bust.";
-//         $done = true;
-//       }
-//     }
-//   } elseif ($player->isDealer) {
-//     echo "Dealer turn";
-//     while ($player->getCardsSum() <= 16 ) {
-//       $player->addCard($deck->deal());
-//       echo "dealer takes a card";
-//     }
-//   }
-// }
-
-// $dealerScore = array_pop($allPlayers)->getCardsSum();
-// Win condition
-// echo "let's see who won!\n";
-// foreach ($allPlayers as $player) {
-//   $name = $player->name;
-//
-//   if ($player->getCardsSum() <= 21 && $player->getCardsSum() >= $dealerScore) {
-//     echo "$name beat the dealer and wins!";
-//   } elseif ($player->getCardsSum() <= 21 && $player->getCardsSum() < $dealerScore) {
-//     echo "$name did not beat the dealer and loses!";
-//   } elseif ($player->getCardsSum() > 21) {
-//     echo "$name busted and loses";
-//   }
-// }
